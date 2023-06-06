@@ -36,23 +36,6 @@ pipeline {
     }
   }
 
-    stage('Build') {
-      steps {
-        sh 'docker build -t ajenemy/flask_app .'
-      }
-    }
-
-    stage('Docker login') {
-      steps {
-        sh 'docker login -u ajenemy -p dckr_pat_A3atVgkk_JoZ_5MVNf8NlOmb3qw'
-      }
-    }
-
-    stage('Docker push') {
-      steps {
-        sh 'docker push ajenemy/flask_app'
-      }
-    }
 
   }
 }
