@@ -1,6 +1,6 @@
 pipeline {
   environment{
-  registry = "ajenemy/flasking"
+  registry = "ajenemy/flask_app"
   registryCredentials = "docker"
   cluster_name = "skillstorm"
 }
