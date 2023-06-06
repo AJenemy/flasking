@@ -1,6 +1,6 @@
 pipeline {
   environment{
-  registry = "AJenemy/flasking"
+  registry = "ajenemy/flasking"
   registryCredentials = "docker"
   cluster_name = "skillstorm"
 }
