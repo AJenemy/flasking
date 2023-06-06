@@ -1,4 +1,10 @@
 pipeline {
+  environment{
+  registry = "AJenemy/flasking"
+  registryCredentials = "docker"
+  cluster_name = "skillstorm"
+}
+
   agent {
     node {
       label 'docker'
@@ -11,6 +17,24 @@ pipeline {
         git(url: 'https://github.com/AJenemy/flasking.git', branch: 'main')
       }
     }
+
+  stage ('Build stage') {
+    steps {
+      script {
+        dockerImage = docker.build(registry)
+      }
+    }
+  }
+
+  stage('Deployment stage'){
+    steps {
+      script {
+        docker.withRegistry('', registryCredentials) {
+          dockerImmage.push()
+        }
+      }
+    }
+  }
 
     stage('Build') {
       steps {
