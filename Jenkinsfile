@@ -50,7 +50,7 @@ pipeline {
           }
         }
         sh "kubectl apply -f ./deployment.yaml -n ${namespace}"
-        sh "kubectl -n ${namespace} rollout restart deployment ajenemyflaskcontainer"
+        sh "kubectl -n ${namespace} rollout restart deployment ajenemyflask"
       }
     }
   }

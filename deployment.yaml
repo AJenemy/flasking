@@ -1,14 +1,14 @@
 apiVersion: apps/v1 
 kind: Deployment 
 metadata: 
-  name:  ajenemyflaskcontainer
-  namespace: ajenemy #Dockerhub username
+  name:  ajenemyflask
+  namespace: ajenemy
   labels: 
-    app:  ajenemyflaskcontainer 
+    app:  ajenemyflask 
 spec: 
   selector: 
     matchLabels: 
-      app: ajenemyflaskcontainer 
+      app: ajenemyflask 
   replicas: 1 
   strategy: 
     rollingUpdate: 
@@ -18,10 +18,10 @@ spec:
   template: 
     metadata: 
       labels: 
-        app:  ajenemyflaskcontainer 
+        app:  ajenemyflask 
     spec: 
       containers: 
-      - name:  ajenemyflaskcontainer 
+      - name:  ajenemyflask 
         image:  ajenemy/flask_app 
         resources: 
           requests: 
@@ -32,7 +32,7 @@ spec:
             memory: 100Mi 
         ports: 
         - containerPort:  5000 
-          name:  ajenemyflaskcontainer
+          name:  ajenemyflask 
         imagePullPolicy: Always 
       restartPolicy: Always 
  
@@ -40,18 +40,18 @@ spec:
 apiVersion: v1 
 kind: Service 
 metadata: 
-  name: ajenemyflaskcontainer
+  name: ajenemyflask 
   namespace: ajenemy
 spec: 
   selector: 
-    app: ajenemyflaskcontainer 
+    app: ajenemyflask 
   type: LoadBalancer 
   sessionAffinity: None 
   sessionAffinityConfig: 
     clientIP: 
       timeoutSeconds: 10800 
   ports: 
-  - name: ajenemy 
+  - name: ajenemyflask 
     protocol: TCP 
     port: 80 
     targetPort: 5000 
