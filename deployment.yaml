@@ -21,7 +21,7 @@ spec:
         app:  ajenemyflaskcontainer 
     spec: 
       containers: 
-      - name:  claskcontainer 
+      - name:  ajenemyflaskcontainer 
         image:  ajenemy/flask_app 
         resources: 
           requests: 
