@@ -39,7 +39,7 @@ pipeline {
 // This allows us to deploy kubernetes as a stage in Jenkins
   stage('kubernetes') {
     steps {
-      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsid: 'AWS', secretkeyVariable: "AWS_SECRET_ACCESS_KEY")]) {
+      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWS', secretKeyVariable: "AWS_SECRET_ACCESS_KEY")]) {
         sh "aws eks --region us-east-1 update-kubeconfig --name ${cluster_name}"
         script {
           try {
