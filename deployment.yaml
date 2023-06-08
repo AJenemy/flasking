@@ -1,0 +1,57 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name:  ajenemyflask
+  namespace: ajenemy
+  labels: 
+    app:  ajenemyflask 
+spec: 
+  selector: 
+    matchLabels: 
+      app: ajenemyflask 
+  replicas: 1 
+  strategy: 
+    rollingUpdate: 
+      maxSurge: 25% 
+      maxUnavailable: 25% 
+    type: RollingUpdate
+  template: 
+    metadata: 
+      labels: 
+        app:  ajenemyflask 
+    spec: 
+      containers: 
+      - name:  ajenemyflask 
+        image:  ajenemy/flask_app 
+        resources: 
+          requests: 
+            cpu: 100m 
+            memory: 100Mi 
+          limits: 
+            cpu: 100m 
+            memory: 100Mi 
+        ports: 
+        - containerPort:  5000 
+          name:  ajenemyflask 
+        imagePullPolicy: Always 
+      restartPolicy: Always 
+ 
+--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: ajenemyflask 
+  namespace: ajenemy
+spec: 
+  selector: 
+    app: ajenemyflask 
+  type: LoadBalancer 
+  sessionAffinity: None 
+  sessionAffinityConfig: 
+    clientIP: 
+      timeoutSeconds: 10800 
+  ports: 
+  - name: ajenemyflask 
+    protocol: TCP 
+    port: 80 
+    targetPort: 5000 

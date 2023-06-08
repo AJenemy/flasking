@@ -1,4 +1,11 @@
 pipeline {
+  environment{
+  registry = "ajenemy/flask_app"
+  registryCredentials = "docker"
+  cluster_name = "skillstorm"
+  namespace = "ajenemy"
+}
+
   agent {
     node {
       label 'docker'
@@ -12,23 +19,37 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        sh 'docker build -t ajenemy/flask_app .'
+  stage ('Build stage') {
+    steps {
+      script {
+        dockerImage = docker.build(registry)
       }
     }
+  }
 
-    stage('Docker login') {
+    stage('Doicker login') {
       steps {
         sh 'docker login -u ajenemy -p dckr_pat_A3atVgkk_JoZ_5MVNf8NlOmb3qw'
       }
     }
-
-    stage('Docker push') {
-      steps {
-        sh 'docker push ajenemy/flask_app'
+  }
+// This allows us to deploy kubernetes as a stage in Jenkins
+  stage('kubernetes') {
+    steps {
+      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWS', secretKeyVariable: "AWS_SECRET_ACCESS_KEY")]) {
+        sh "aws eks --region us-east-1 update-kubeconfig --name ${cluster_name}"
+        script {
+          try {
+            sh "kubectl create namespace ${namespace}"
+          }
+          catch (Exception e) {
+            echo "Error / namespace already created"
+          }
+        }
+        sh "kubectl apply -f ./deployment.yaml -n ${namespace}"
+        sh "kubectl -n ${namespace} rollout restart deployment ajenemyflask"
       }
     }
-
+  }
   }
 }
