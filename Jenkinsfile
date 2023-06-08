@@ -18,7 +18,7 @@ pipeline {
       }
     }
 
-    stage('Doicker login') {
+    stage('Docker login') {
       steps {
         sh 'docker login -u ajenemy -p dckr_pat_A3atVgkk_JoZ_5MVNf8NlOmb3qw'
       }
